@@ -1,0 +1,37 @@
+{
+	"name": "rs_crud_api",
+	"version": "1.0.0",
+	"description": " simple CRUD API with in-memory database underneath",
+	"main": "server.ts",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1",
+		"start:dev": "nodemon src/server.ts"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/nikGrape/RS_CRUD_API.git"
+	},
+	"dependencies": {
+		"dotenv": "16.3.1",
+		"cross-env": "7.0.3",
+		"typescript": "5.1.5",
+		"ts-node": "10.9.1",
+		"ts-node-dev": "2.0.0",
+		"uuid": "9.0.0"
+	},
+	"devDependencies": {
+		"nodemon": "2.0.22"
+	},
+	"keywords": [
+		"RS",
+		"Node",
+		"TS",
+		"JS"
+	],
+	"author": "nvinograd",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/nikGrape/RS_CRUD_API/issues"
+	},
+	"homepage": "https://github.com/nikGrape/RS_CRUD_API#readme"
+}
