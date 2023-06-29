@@ -1,30 +1,26 @@
-import Server from './Server';
+import dotenv from 'dotenv';
+
+import Server from './utils/Server.ts';
+import { getAllUsers } from './routs/getAllUsers.ts';
+import { getUserById } from './routs/getUserById.ts';
+import { addUser } from './routs/addUser.ts';
+import { notFoundHandler } from './routs/notFoundHandler.ts';
+import { updateUser } from './routs/updateUser.ts';
+import { deleteUser } from './routs/deleteUser.ts';
+import { Store } from './types/Store.ts';
+
+dotenv.config();
 
 const app = new Server();
+export const store = new Store();
 
-app.get('/api', (req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' });
-	res.write('Test response');
-	res.end();
-});
+app.get('/api/users', getAllUsers);
+app.get('/api/users/{userId}', getUserById);
+app.post('/api/users', addUser);
+app.put('/api/users/{userId}', updateUser);
+app.delete('/api/users/{userId}', deleteUser);
 
-app.get('/api/users', (req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' });
-	res.write('And Hello to You my friend!');
-	res.end();
-});
-
-app.post('/api/users', (req, res) => {
-	res.writeHead(200, { 'Content-Type': 'text/plain' });
-	res.write('test for post method');
-	res.end();
-});
-
-app.pageNotFoud((req, res) => {
-	res.writeHead(404, { 'Content-Type': 'text/plain' });
-	res.write('Page not found!');
-	res.end();
-});
+app.pageNotFoud(notFoundHandler);
 
 const PORT = process.env.PORT || 3003;
 

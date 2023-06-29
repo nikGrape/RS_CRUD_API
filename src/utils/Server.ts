@@ -1,9 +1,6 @@
 import http from 'http';
 
-const compare = (path: string, url: string | undefined): boolean => {
-	if (!url) return false;
-	return url.replace(/\/*$/, '') === path;
-};
+import { compare } from './compareUrl.ts';
 
 class Server {
 	paths: { path: string; method: string }[] = [];
