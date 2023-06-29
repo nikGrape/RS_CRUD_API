@@ -1,15 +1,83 @@
 import http from 'http';
 
-const app = http.createServer((req, res) => {
-	console.log(req.url);
+const compare = (path: string, url: string | undefined): boolean => {
+	if (!url) return false;
+	return url.replace(/\/*$/, '') === path;
+};
 
-	res.writeHead(200, { 'Content-Type': 'text' });
-	res.write('Test response');
-	res.end();
-});
+class Server {
+	paths: { path: string; method: string }[] = [];
+	app = http.createServer((req, res) => {
+		console.log('URL: ', req.url);
+		console.log('METHOD: ', req.method);
+	});
 
-const PORT = process.env.PORT || 3003;
+	listen = (port: number, calback: () => void) => {
+		this.app.listen(port, calback);
+	};
 
-app.listen(3003, () => {
-	console.log(`Server started on port: ${PORT}`);
-});
+	get = (
+		path: string,
+		listener: (req: http.IncomingMessage, res: http.ServerResponse) => void
+	) => {
+		this.paths.push({ path, method: 'GET' });
+		this.app.addListener('request', (req, res) => {
+			if (req.method == 'GET' && compare(path, req.url)) {
+				listener(req, res);
+			}
+		});
+	};
+
+	post = (
+		path: string,
+		listener: (req: http.IncomingMessage, res: http.ServerResponse) => void
+	) => {
+		const regex = new RegExp(`/*${path}/*`);
+		this.paths.push({ path, method: 'POST' });
+		this.app.addListener('request', (req, res) => {
+			if (req.method == 'POST' && compare(path, req.url)) {
+				listener(req, res);
+			}
+		});
+	};
+
+	put = (
+		path: string,
+		listener: (req: http.IncomingMessage, res: http.ServerResponse) => void
+	) => {
+		this.paths.push({ path, method: 'PUT' });
+		this.app.addListener('request', (req, res) => {
+			if (req.method == 'PUT' && compare(path, req.url)) {
+				listener(req, res);
+			}
+		});
+	};
+
+	delete = (
+		path: string,
+		listener: (req: http.IncomingMessage, res: http.ServerResponse) => void
+	) => {
+		this.paths.push({ path, method: 'DELETE' });
+		this.app.addListener('request', (req, res) => {
+			if (req.method == 'DELETE' && compare(path, req.url)) {
+				listener(req, res);
+			}
+		});
+	};
+
+	pageNotFoud = (
+		callback: (req: http.IncomingMessage, res: http.ServerResponse) => void
+	) => {
+		this.app.addListener('request', (req, res) => {
+			if (
+				!this.paths.some(
+					(v) => compare(v.path, req.url) && v.method == req.method
+				)
+			) {
+				callback(req, res);
+			}
+		});
+	};
+}
+
+export default Server;
