@@ -4,7 +4,15 @@
 The task is to implement simple CRUD API using in-memory database underneath.
 
 [Task](https://github.com/AlreadyBored/nodejs-assignments/blob/main/assignments/crud-api/assignment.md)
+### START SERVER:
+`npm run dev` or <br/>
+`npm run prod`
 
+
+### TEST:
+start the server: `npm run dev`<br/>
+start tests: <br/>
+in new terminal tab: `npm run test`
 
 <br/>
 <br/>
