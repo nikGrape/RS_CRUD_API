@@ -4,10 +4,7 @@ import { compare } from './compareUrl.ts';
 
 class Server {
 	paths: { path: string; method: string }[] = [];
-	app = http.createServer((req, res) => {
-		console.log('URL: ', req.url);
-		console.log('METHOD: ', req.method);
-	});
+	app = http.createServer((req, res) => {});
 
 	listen = (port: number, calback: () => void) => {
 		this.app.listen(port, calback);
