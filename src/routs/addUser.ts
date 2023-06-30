@@ -1,46 +1,26 @@
-import uuid from 'uuid';
 import http from 'http';
 import { User } from '../types/User.ts';
 import { store } from '../app.ts';
+import { bodyParser } from '../utils/bodyParser.ts';
+import { checkRequiredFields } from '../utils/checkRequiredFields.ts';
 
-/**
- Server should answer with status code 400 and corresponding message if request body does not contain required fields
- * check body types
- */
-
-const checkBody = (body: any): string[] | null => {
-	const errors = [];
-	if (!body.username) errors.push('username');
-	if (!body.age) errors.push('age');
-	if (!body.hobbies) errors.push('hobbies');
-	return errors.length > 0 ? errors : null;
-};
-
-export const addUser = (
+export const addUser = async (
 	req: http.IncomingMessage,
 	res: http.ServerResponse
 ) => {
-	let data = '';
-	req.setEncoding('utf-8');
-	req
-		.on('data', (chunk) => {
-			data += chunk;
-		})
-		.on('end', () => {
-			const body = JSON.parse(data);
-			const error = checkBody(body);
+	const body = await bodyParser(req);
+	const errors = checkRequiredFields(body);
 
-			if (error) {
-				res.writeHead(400, { 'Content-Type': 'text/plain' });
-				res.write('missing parameters: ' + JSON.stringify(error));
-				res.end();
-				return;
-			}
+	if (errors) {
+		res.writeHead(400, { 'Content-Type': 'application/json' });
+		res.write(JSON.stringify({ errors }));
+		res.end();
+		return;
+	}
 
-			const user = new User(body.username, body.age, body.hobbies);
-			store.add(user);
-			res.writeHead(201, { 'Content-Type': 'application/json' });
-			res.write(JSON.stringify(user));
-			res.end();
-		});
+	const user = new User(body.username, body.age, body.hobbies);
+	store.add(user);
+	res.writeHead(201, { 'Content-Type': 'application/json' });
+	res.write(JSON.stringify(user));
+	res.end();
 };

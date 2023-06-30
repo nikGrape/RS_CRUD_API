@@ -1,12 +1,5 @@
 import { v1 } from 'uuid';
 
-export type user = {
-	id: string;
-	username: string;
-	age: number;
-	hobbies: string[];
-};
-
 export class User {
 	id: string;
 	username: string;
