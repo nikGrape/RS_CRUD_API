@@ -4,10 +4,8 @@ import { validate } from 'uuid';
 import { param } from '../utils/parseParams.ts';
 import { store } from '../app.ts';
 import { bodyParser } from '../utils/bodyParser.ts';
+import { checkRequiredFields } from '../utils/checkRequiredFields.ts';
 
-/**
- * check body types
- */
 export const updateUser = async (
 	req: http.IncomingMessage,
 	res: http.ServerResponse
@@ -24,10 +22,29 @@ export const updateUser = async (
 
 	if (user) {
 		const body = await bodyParser(req);
+		const errors = checkRequiredFields(body);
+
+		if (errors) {
+			if (errors.some((e) => e.match(/.*json.*/i))) {
+				res.writeHead(400, { 'Content-Type': 'application/json' });
+				res.write(JSON.stringify({ errors }));
+				res.end();
+				return;
+			}
+			const typeErrors = errors.filter((e) => e.match(/.*type.*/));
+			if (typeErrors.length > 0) {
+				res.writeHead(400, { 'Content-Type': 'application/json' });
+				res.write(JSON.stringify({ errors: typeErrors }));
+				res.end();
+				return;
+			}
+		}
+
 		const { username, age, hobbies } = body;
 		if (username) user.username = username;
 		if (age) user.age = age;
 		if (hobbies) user.hobbies = hobbies;
+
 		res.writeHead(200, { 'Content-Type': 'application/json' });
 		res.write(JSON.stringify(user));
 		res.end();
