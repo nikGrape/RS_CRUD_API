@@ -8,19 +8,25 @@ export const addUser = async (
 	req: http.IncomingMessage,
 	res: http.ServerResponse
 ) => {
-	const body = await bodyParser(req);
-	const errors = checkRequiredFields(body);
+	try {
+		const body = await bodyParser(req);
+		const errors = checkRequiredFields(body);
 
-	if (errors) {
-		res.writeHead(400, { 'Content-Type': 'application/json' });
-		res.write(JSON.stringify({ errors }));
+		if (errors) {
+			res.writeHead(400, { 'Content-Type': 'application/json' });
+			res.write(JSON.stringify({ errors }));
+			res.end();
+			return;
+		}
+
+		const user = new User(body.username, body.age, body.hobbies);
+		store.add(user);
+		res.writeHead(201, { 'Content-Type': 'application/json' });
+		res.write(JSON.stringify(user));
 		res.end();
-		return;
+	} catch (err) {
+		res.writeHead(500, { 'Content-Type': 'application/json' });
+		res.write(JSON.stringify({ error: 'Internal server error' }));
+		res.end();
 	}
-
-	const user = new User(body.username, body.age, body.hobbies);
-	store.add(user);
-	res.writeHead(201, { 'Content-Type': 'application/json' });
-	res.write(JSON.stringify(user));
-	res.end();
 };
