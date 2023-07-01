@@ -1,4 +1,4 @@
-import { removeSlashesFromTheEnd } from './compareUrl.ts';
+import { removeSlashesFromTheEnd } from './compareUrl';
 
 export const param = (url: string | undefined): string | undefined => {
 	if (!url) return undefined;

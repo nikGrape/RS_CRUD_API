@@ -1,10 +1,10 @@
 import http from 'http';
 import { validate } from 'uuid';
 
-import { param } from '../utils/parseParams.ts';
-import { store } from '../app.ts';
-import { bodyParser } from '../utils/bodyParser.ts';
-import { checkRequiredFields } from '../utils/checkRequiredFields.ts';
+import { param } from '../utils/parseParams';
+import { store } from '../app';
+import { bodyParser } from '../utils/bodyParser';
+import { checkRequiredFields } from '../utils/checkRequiredFields';
 
 export const updateUser = async (
 	req: http.IncomingMessage,

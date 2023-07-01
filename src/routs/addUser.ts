@@ -1,8 +1,8 @@
 import http from 'http';
-import { User } from '../types/User.ts';
-import { store } from '../app.ts';
-import { bodyParser } from '../utils/bodyParser.ts';
-import { checkRequiredFields } from '../utils/checkRequiredFields.ts';
+import { User } from '../types/User';
+import { store } from '../app';
+import { bodyParser } from '../utils/bodyParser';
+import { checkRequiredFields } from '../utils/checkRequiredFields';
 
 export const addUser = async (
 	req: http.IncomingMessage,

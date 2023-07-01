@@ -1,5 +1,5 @@
 import http from 'http';
-import { store } from '../app.ts';
+import { store } from '../app';
 
 export const getAllUsers = (
 	req: http.IncomingMessage,

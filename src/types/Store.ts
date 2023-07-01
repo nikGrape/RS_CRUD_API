@@ -1,4 +1,4 @@
-import { User } from './User.ts';
+import { User } from './User';
 
 export class Store {
 	private users: User[] = [];

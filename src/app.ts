@@ -1,13 +1,13 @@
 import dotenv from 'dotenv';
 
-import Server from './utils/Server.ts';
-import { getAllUsers } from './routs/getAllUsers.ts';
-import { getUserById } from './routs/getUserById.ts';
-import { addUser } from './routs/addUser.ts';
-import { notFoundHandler } from './routs/notFoundHandler.ts';
-import { updateUser } from './routs/updateUser.ts';
-import { deleteUser } from './routs/deleteUser.ts';
-import { Store } from './types/Store.ts';
+import Server from './utils/Server';
+import { getAllUsers } from './routs/getAllUsers';
+import { getUserById } from './routs/getUserById';
+import { addUser } from './routs/addUser';
+import { notFoundHandler } from './routs/notFoundHandler';
+import { updateUser } from './routs/updateUser';
+import { deleteUser } from './routs/deleteUser';
+import { Store } from './types/Store';
 
 dotenv.config();
 

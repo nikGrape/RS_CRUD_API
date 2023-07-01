@@ -1,6 +1,6 @@
 import http from 'http';
 
-import { compare } from './compareUrl.ts';
+import { compare } from './compareUrl';
 
 class Server {
 	paths: { path: string; method: string }[] = [];

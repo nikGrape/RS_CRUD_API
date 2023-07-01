@@ -1,8 +1,8 @@
 import http from 'http';
 import { validate } from 'uuid';
 
-import { param } from '../utils/parseParams.ts';
-import { store } from '../app.ts';
+import { param } from '../utils/parseParams';
+import { store } from '../app';
 
 export const getUserById = (
 	req: http.IncomingMessage,
